@@ -1,0 +1,17 @@
+{
+  "name": "wsify",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Furqan Zafar",
+  "dependencies": {
+    "hiredis": "^0.4.1",
+    "prelude-ls": "^1.1.2",
+    "redis": "^2.2.3",
+    "socket.io": "^1.3.7",
+    "tail": "^0.4.0"
+  }
+}
