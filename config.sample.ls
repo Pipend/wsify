@@ -1,7 +1,12 @@
 module.exports =
 
-    socket-io-port: 4083
+    socket-io-port: 4040
 
-    redis-channels: []
+    # RedisChannel :: {channel-name :: String, event-name :: String?}
+    # RedisConnection :: {connection-string :: String, channels :: [RedisChannel]}
+    # redis-connections :: [RedisConnection]
+    redis-connections: []
     
+    # FileStream :: {file-name :: String, event-name :: String}
+    # file-streams :: [FileStream]
     file-streams: []

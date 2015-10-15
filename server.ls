@@ -1,14 +1,16 @@
-{file-streams, redis-channels, socket-io-port} = require \./config
+{file-streams, redis-connections, socket-io-port} = require \./config
 {each, map, pairs-to-obj} = require \prelude-ls
 require! \redis
 {Tail} = require \tail
 
 web-socket = (require \socket.io) socket-io-port
 
+console.log "web-socket server listening on port: #{socket-io-port}"
+
 # convert redis channels to websocket events
-if !!redis-channels
+if !!redis-connections
     
-    redis-channels |> each ({connection-string, channels}?) ->
+    redis-connections |> each ({connection-string, channels}?) ->
         
         # parse the redis connection string redis://host:port
         [, host, port]? = /redis:\/\/(.*?):(.*?)\/(\d+)?/g.exec connection-string
@@ -16,11 +18,11 @@ if !!redis-channels
         redis-client = redis.create-client port, host, {}
             ..once \connect, ->
                 
-                channels |> map ({name}) ->
-                    redis-client.subscribe name
+                channels |> map ({channel-name}) ->
+                    redis-client.subscribe channel-name
 
                 hash = channels 
-                    |> map ({name, event}?) -> [name, event ? name]
+                    |> map ({channel-name, event-name}?) -> [channel-name, event-name ? channel-name]
                     |> pairs-to-obj
 
                 redis-client.on \message, (channel, message) -> web-socket.emit hash[channel], message
