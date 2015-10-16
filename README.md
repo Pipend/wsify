@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Pipend/wsify.svg)](https://travis-ci.org/Pipend/wsify)
+[![Coverage Status](https://coveralls.io/repos/Pipend/wsify/badge.svg?branch=master&service=github)](https://coveralls.io/github/Pipend/wsify?branch=master)
+
 # wsify
 A node.js project that converts streams to web sockets
 

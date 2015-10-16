@@ -13,7 +13,7 @@ export from-redis-connections = (redis-connections) ->
         
         redis-client = redis.create-client port, host, {}
             ..once \connect, ->
-                
+    
                 channels |> map ({channel-name}) ->
                     redis-client.subscribe channel-name
 

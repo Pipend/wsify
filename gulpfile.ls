@@ -13,7 +13,7 @@ gulp.task \server, ->
         script: \./server.ls
     
 gulp.task \coverage, ->
-    gulp.src <[server.ls]>
+    gulp.src <[observables.ls]>
     .pipe instrument!
     .pipe hook-require!
 
