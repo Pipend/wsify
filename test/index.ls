@@ -7,16 +7,17 @@ describe "wsify", ->
 
     specify "must broadcast data from file streams", (done) ->
 
-        write-stream = create-write-stream \./temp.txt        
+        write-stream = create-write-stream \./temp.txt
+            ..once \open, ->
+                
+                from-file-streams [{event-name: \test, file-name: \./temp.txt}] .subscribe ({event-name, payload}) ->
+                    write-stream.close!
+                    unlink \./temp.txt
+                    assert event-name == \test
+                    assert payload == \hello
+                    done!
 
-        from-file-streams [{event-name: \test, file-name: \./temp.txt}] .subscribe ({event-name, payload}) ->
-            write-stream.close!
-            unlink \./temp.txt
-            assert event-name == \test
-            assert payload == \hello
-            done!
-
-        write-stream.write 'hello\n'
+                write-stream.write 'hello\n'
 
 
     specify "must braodcast data from redis channels", (done) ->
