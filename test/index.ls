@@ -1,5 +1,5 @@
 require! \assert
-{create-write-stream, open-sync, close-sync, unlink-sync} = require \fs
+{create-write-stream, close-sync, unlink-sync} = require \fs
 {from-file-streams, from-redis-connections}? = require \../observables
 require! \redis
 
@@ -27,14 +27,12 @@ describe "wsify", ->
 
     specify "must broadcast data from file streams", (done) ->
 
-        open-sync \./temp.txt, \w
-
-        write-stream = create-write-stream \./temp.txt
+        write-stream = create-write-stream \temp.txt
             ..once \open, ->
                 
-                from-file-streams [{event-name: \test, file-name: \./temp.txt}] .subscribe ({event-name, payload}) ->
+                from-file-streams [{event-name: \test, file-name: \temp.txt}] .subscribe ({event-name, payload}) ->
                     write-stream.close!
-                    unlink-sync \./temp.txt
+                    unlink-sync \temp.txt
                     assert event-name == \test
                     assert payload == \hello
                     done!
