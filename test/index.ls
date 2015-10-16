@@ -27,12 +27,11 @@ describe "wsify", ->
 
     specify "must broadcast data from file streams", (done) ->
 
-        write-stream = create-write-stream \temp.txt
+        write-stream = create-write-stream "#{__dirname}/fixture.txt"
             ..once \open, ->
                 
-                from-file-streams [{event-name: \test, file-name: \temp.txt}] .subscribe ({event-name, payload}) ->
-                    write-stream.close!
-                    unlink-sync \temp.txt
+                from-file-streams [{event-name: \test, file-name: "#{__dirname}/fixture.txt"}] .subscribe ({event-name, payload}) ->
+                    write-stream.end!
                     assert event-name == \test
                     assert payload == \hello
                     done!
